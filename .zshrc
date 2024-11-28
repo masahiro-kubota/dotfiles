@@ -8,8 +8,8 @@ fi
 
 # ヒストリ設定
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=20000
+histsize=10000
+savehist=1000000
 setopt appendhistory       # 履歴を追記
 setopt histignoredups      # 重複したコマンドを記録しない
 setopt sharehistory        # セッション間で履歴を共有
@@ -24,9 +24,11 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # エイリアス
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+alias -g G='|grep'
 
 # パスと環境変数
 export PATH="$PATH:/home/masa/.local/bin"
@@ -39,3 +41,11 @@ export CXX="/usr/lib/ccache/g++"
 autoload -U compinit
 compinit
 
+# history begging search
+bindkey "^P" history-beginning-search-backward
+bindkey "^N" history-beginning-search-forward
+
+# インクリメンタル検索のバインド
+# stty -ixon
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
