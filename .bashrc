@@ -124,3 +124,11 @@ export CCACHE_DIR="/var/tmp/ccache"
 export CC="/usr/lib/ccache/gcc"
 export CXX="/usr/lib/ccache/g++"
 . "$HOME/.cargo/env"
+
+HISTFILE=~/.bash_history       # 履歴を保存するファイル
+HISTSIZE=10000                 # メモリに保存する履歴の数
+HISTFILESIZE=20000             # 履歴ファイルに保存する履歴の数
+shopt -s histappend            # 履歴を上書きせず追記する
+HISTCONTROL=ignoredups
+PROMPT_COMMAND='history -a; history -n'  # コマンド実行後に履歴を保存・再読み込み
+alias history='history -a; history -c; history -r; builtin history'
