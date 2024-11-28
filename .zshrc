@@ -41,7 +41,7 @@ export CXX="/usr/lib/ccache/g++"
 autoload -U compinit
 compinit
 
-# history begging search
+# history begging search 前方一致限定の履歴検索
 bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
@@ -49,3 +49,18 @@ bindkey "^N" history-beginning-search-forward
 # stty -ixon
 bindkey "^R" history-incremental-search-backward
 bindkey "^S" history-incremental-search-forward
+
+# smart insert last word 直前のコマンドの最後の単語を一瞬で入力できる
+autoload smart-insert-last-word
+zle -N insert-lastword smart-insert-last-word
+bindkey '^[.' insert-lastword
+
+# 入力中のコマンドをviで編集できる。
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+# 入力中のコマンドを一瞬どかすことができる
+bindkey '^U' push-line
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

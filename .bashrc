@@ -127,3 +127,5 @@ shopt -s histappend            # 履歴を上書きせず追記する
 HISTCONTROL=ignoredups
 PROMPT_COMMAND='history -a; history -n'  # コマンド実行後に履歴を保存・再読み込み
 alias history='history -a; history -c; history -r; builtin history'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
