@@ -4,6 +4,7 @@
 
 ### not ignore ###
 !/.bashrc
+!/.bash_aliases
 !/.vimrc
 !/.bin/** # ディレクトリとその中身を追跡対象
 
