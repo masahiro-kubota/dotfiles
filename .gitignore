@@ -1,0 +1,12 @@
+### ignore ###
+/* # 全てのフォルダ
+/.**　# 全ての隠しファイルとフォルダとその中身
+
+### not ignore ###
+!/.bashrc
+!/.vimrc
+!/.bin/** # ディレクトリとその中身を追跡対象
+
+!/README.md
+!/LICENSE
+!.gitignore
