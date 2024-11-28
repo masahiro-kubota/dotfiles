@@ -3,10 +3,11 @@
 /.**　# 全ての隠しファイルとフォルダとその中身
 
 ### not ignore ###
+install.sh
+
 !/.bashrc
 !/.bash_aliases
 !/.vimrc
-!/.bin/** # ディレクトリとその中身を追跡対象
 
 !/README.md
 !/LICENSE
