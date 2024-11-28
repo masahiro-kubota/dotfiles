@@ -3,7 +3,7 @@
 /.**　# 全ての隠しファイルとフォルダとその中身
 
 ### not ignore ###
-install.sh
+!/install.sh
 
 !/.bashrc
 !/.bash_aliases
