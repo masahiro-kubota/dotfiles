@@ -22,7 +22,7 @@ HISTFILESIZE=1000000
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-shopt autocd
+shopt -s autocd
 
 
 # If set, the pattern "**" used in a pathname expansion context will
