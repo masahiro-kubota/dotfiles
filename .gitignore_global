@@ -1,0 +1,15 @@
+# OS関連
+.DS_Store
+Thumbs.db
+
+# エディタ関連
+.vscode/
+.idea/
+*.swp
+*~
+
+# 言語関連
+node_modules/
+__pycache__/
+*.pyc
+*.swp
