@@ -46,7 +46,7 @@ bindkey "^P" history-beginning-search-backward
 bindkey "^N" history-beginning-search-forward
 
 # インクリメンタル検索のバインド
-# stty -ixon
+stty -ixon
 bindkey "^R" history-incremental-search-backward
 bindkey "^S" history-incremental-search-forward
 
@@ -58,9 +58,14 @@ bindkey '^[.' insert-lastword
 # 入力中のコマンドをviで編集できる。
 autoload -Uz edit-command-line
 zle -N edit-command-line
-bindkey '^e' edit-command-line
+bindkey '^[e' edit-command-line
 
 # 入力中のコマンドを一瞬どかすことができる
 bindkey '^U' push-line
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Directory Hash ディレクトリ名のエイリアスのようなもの
+hash -d dot=/home/masa/Documents/dotfiles
+
+setopt auto_cd
