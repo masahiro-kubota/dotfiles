@@ -18,6 +18,7 @@ alias gst='git status'
 alias gco='git checkout'
 alias gf='git fetch'
 alias gc='git commit'
+alias gpom='git push origin main'
 
 # dotfiles
 alias bashrc='source ~/.bashrc'
