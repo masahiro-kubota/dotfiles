@@ -6,13 +6,6 @@ if [[ $- != *i* ]]; then
   return
 fi
 
-# ヒストリ設定
-HISTFILE=~/.zsh_history
-histsize=10000
-savehist=1000000
-setopt appendhistory       # 履歴を追記
-setopt histignoredups      # 重複したコマンドを記録しない
-setopt sharehistory        # セッション間で履歴を共有
 
 # プロンプトの設定
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$ '
@@ -69,3 +62,18 @@ bindkey '^U' push-line
 hash -d dot=/home/masa/Documents/dotfiles
 
 setopt auto_cd
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+echo $HOME
+
+
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory          # 履歴を追記
+setopt inc_append_history      # コマンド実行後に履歴を即保存
+setopt sharehistory           # セッション間で履歴を共有
+setopt histignoredups         # 重複する履歴を無視
