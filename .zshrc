@@ -6,6 +6,13 @@ if [[ $- != *i* ]]; then
   return
 fi
 
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory          # 履歴を追記
+setopt inc_append_history      # コマンド実行後に履歴を即保存
+setopt sharehistory           # セッション間で履歴を共有
+setopt histignoredups         # 重複する履歴を無視
 
 # プロンプトの設定
 PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$ '
@@ -70,10 +77,3 @@ echo $HOME
 
 
 
-HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt appendhistory          # 履歴を追記
-setopt inc_append_history      # コマンド実行後に履歴を即保存
-setopt sharehistory           # セッション間で履歴を共有
-setopt histignoredups         # 重複する履歴を無視
