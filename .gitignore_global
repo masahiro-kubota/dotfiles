@@ -13,3 +13,6 @@ node_modules/
 __pycache__/
 *.pyc
 *.swp
+
+# プロジェクト関連
+.env

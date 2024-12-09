@@ -6,10 +6,10 @@ inoremap jj <Esc>
 set number
 set clipboard=unnamedplus
 
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=2
 set expandtab
-set softtabstop=4
+set softtabstop=2
 set list listchars=tab:\▸\-
 
 set title
@@ -72,4 +72,20 @@ augroup makefile_indent
     autocmd FileType make setlocal tabstop=8     
     autocmd FileType make setlocal shiftwidth=8 
     autocmd FileType make setlocal softtabstop=0
+augroup END
+
+augroup html_indent
+    autocmd!
+    autocmd FileType html setlocal shiftwidth=2
+    autocmd FileType html setlocal tabstop=2
+    autocmd FileType html setlocal softtabstop=2
+    autocmd FileType html setlocal expandtab
+augroup END
+
+augroup javascript_indent
+    autocmd!
+    autocmd FileType javascript setlocal shiftwidth=2
+    autocmd FileType javascript setlocal tabstop=2
+    autocmd FileType javascript setlocal softtabstop=2
+    autocmd FileType javascript setlocal expandtab
 augroup END
