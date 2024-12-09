@@ -129,3 +129,5 @@ PROMPT_COMMAND='history -a; history -n'  # コマンド実行後に履歴を保�
 alias history='history -a; history -c; history -r; builtin history'
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+source /opt/ros/humble/setup.bash
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
