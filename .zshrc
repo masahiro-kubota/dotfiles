@@ -78,4 +78,8 @@ echo $HOME
 
 
 
+<<<<<<< Updated upstream
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+=======
+. "$HOME/.local/bin/env"
+>>>>>>> Stashed changes
