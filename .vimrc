@@ -1,6 +1,7 @@
 " sudo apt install vim-gtk3 # to use clipboard
 filetype plugin indent on
 
+syntax on
 
 inoremap jj <Esc>
 set number
@@ -88,4 +89,13 @@ augroup javascript_indent
     autocmd FileType javascript setlocal tabstop=2
     autocmd FileType javascript setlocal softtabstop=2
     autocmd FileType javascript setlocal expandtab
+augroup END
+
+
+augroup csharp_indent
+    autocmd!
+    autocmd FileType cs setlocal shiftwidth=4
+    autocmd FileType cs setlocal tabstop=4
+    autocmd FileType cs setlocal softtabstop=4
+    autocmd FileType cs setlocal expandtab
 augroup END
