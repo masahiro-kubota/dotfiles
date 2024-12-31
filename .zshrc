@@ -80,3 +80,7 @@ echo $HOME
 
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.local/bin/env"
+
+
+export DOTNET_ROOT="/usr/local/share/dotnet"
+export PATH=$PATH:$DOTNET_ROOT
