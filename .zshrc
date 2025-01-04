@@ -15,7 +15,7 @@ setopt sharehistory           # セッション間で履歴を共有
 setopt histignoredups         # 重複する履歴を無視
 
 # プロンプトの設定
-PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$ '
+PROMPT='%F{green}%n%f:%F{blue}%~%f$ '
 
 # カラー設定
 if [ -x /usr/bin/dircolors ]; then
