@@ -82,3 +82,6 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.local/bin/env"
 
 source /opt/ros/humble/setup.zsh
+
+export DOTNET_ROOT="/usr/local/share/dotnet"
+export PATH=$PATH:$DOTNET_ROOT
