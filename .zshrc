@@ -81,7 +81,10 @@ echo $HOME
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.local/bin/env"
 
-source /opt/ros/humble/setup.zsh
 
 export DOTNET_ROOT="/usr/local/share/dotnet"
 export PATH=$PATH:$DOTNET_ROOT
+
+source /opt/ros/humble/setup.zsh
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds.xml
