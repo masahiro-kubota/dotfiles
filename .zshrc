@@ -88,4 +88,3 @@ source /opt/ros/humble/setup.zsh
 export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds.xml
 
-echo $0
