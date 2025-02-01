@@ -80,11 +80,15 @@ export NVM_DIR="$HOME/.nvm"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 . "$HOME/.local/bin/env"
 
+# ros2 setting
+source /opt/ros/humble/setup.zsh
+export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds.xml
+export RCUTILS_COLORIZED_OUTPUT=1
+export RCUTILS_CONSOLE_OUTPUT_FORMAT="[{severity} {time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})"
+export GTEST_COLOR=1
 
 export DOTNET_ROOT="/usr/local/share/dotnet"
 export PATH=$PATH:$DOTNET_ROOT
 
-source /opt/ros/humble/setup.zsh
-export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds.xml
 
