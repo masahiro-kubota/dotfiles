@@ -87,7 +87,9 @@ export CYCLONEDDS_URI=file:///opt/autoware/cyclonedds.xml
 export RCUTILS_COLORIZED_OUTPUT=1
 export RCUTILS_CONSOLE_OUTPUT_FORMAT="[{severity} {time}] [{name}]: {message} ({function_name}() at {file_name}:{line_number})"
 export GTEST_COLOR=1
+eval "$(register-python-argcomplete3 colcon)"
 eval "$(register-python-argcomplete ros2)"
+alias srcws='source install/setup.zsh && eval "$(register-python-argcomplete3 ros2)" && eval "$(register-python-argcomplete3 colcon)"'
 
 export DOTNET_ROOT="/usr/local/share/dotnet"
 export PATH=$PATH:$DOTNET_ROOT
