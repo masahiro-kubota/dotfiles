@@ -1,6 +1,7 @@
 ### ignore ###
 /* # 全てのフォルダ
 /.**　# 全ての隠しファイルとフォルダとその中身
+/.docker/buildx
 
 ### not ignore ###
 !/install.sh
@@ -8,6 +9,7 @@
 !/.bashrc
 !/.bash_aliases
 !/.vimrc
+!/.docker
 
 !/README.md
 !/LICENSE
