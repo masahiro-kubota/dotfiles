@@ -18,7 +18,7 @@ alias gb='git branch'
 alias gf='git fetch'
 alias gch='git checkout'
 alias gcm='git commit -m'
-alias gplom='git push origin main'
+alias gplom='git pull origin main'
 alias glo='git log --oneline'
 
 
