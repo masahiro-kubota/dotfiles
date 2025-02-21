@@ -77,8 +77,8 @@ export NVM_DIR="$HOME/.nvm"
 
 
 
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-. "$HOME/.local/bin/env"
+#eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#. "$HOME/.local/bin/env"
 
 # ros2 setting
 source /opt/ros/humble/setup.zsh
