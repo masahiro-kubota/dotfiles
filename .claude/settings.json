@@ -87,6 +87,7 @@
       "Bash(gh issue edit:*)",
       "Bash(git checkout:*)",
       "Bash(git add:*)",
+      "Bash(git diff:*)",
       "Bash(git push:*)",
       "Bash(git remote set-url:*)",
       "Bash(git pull:*)",
