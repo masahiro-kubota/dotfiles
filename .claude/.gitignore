@@ -1,0 +1,5 @@
+# Claude Desktop設定ファイルでGit管理するもの以外を除外
+*
+!settings.json
+!CLAUDE.md
+!.gitignore
