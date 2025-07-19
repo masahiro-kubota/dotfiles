@@ -63,6 +63,26 @@ bindkey '^[e' edit-command-line
 # 入力中のコマンドを一瞬どかすことができる
 bindkey '^U' push-line
 
+# Git worktree selector
+select_worktree() {
+  local worktrees
+  worktrees=$(git worktree list --porcelain | awk '/worktree / {print $2}')
+  if [[ -z "$worktrees" ]]; then
+    echo "No worktrees found."
+    return 1
+  fi
+  local selected
+  selected=$(echo "$worktrees" | fzf)
+  if [[ -n "$selected" ]]; then
+    echo "Switching to: $selected"
+    cd "$selected"
+  fi
+}
+
+# Ctrl+J でworktree選択
+zle -N select_worktree
+bindkey '^J' select_worktree
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Directory Hash ディレクトリ名のエイリアスのようなもの
