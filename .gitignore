@@ -1,7 +1,8 @@
 ### ignore ###
 /* # 全てのフォルダ
-/.**　# 全ての隠しファイルとフォルダとその中身
+/.** # 全ての隠しファイルとフォルダとその中身
 /.docker/buildx
+/.claude/*
 
 ### not ignore ###
 !/install.sh
@@ -15,3 +16,7 @@
 !/LICENSE
 !/.gitignore
 !/.gitignore_global
+!/.claude/settings.json
+!/.claude/CLAUDE.md
+!/.claude/command
+
