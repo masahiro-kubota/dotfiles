@@ -23,13 +23,6 @@ alias gplod='git pull origin dev'
 alias gplom='git pull origin main'
 alias glo='git log --oneline'
 
-# Git worktree aliases
-gwb() {
-  WORKTREE_PATH=../$(basename $(pwd))-${1}
-  git worktree add $WORKTREE_PATH $2
-}
-alias gwd='git worktree remove'
-
 
 # dotfiles
 alias bashrc='source ~/.bashrc'
