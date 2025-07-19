@@ -1,6 +1,6 @@
 ### ignore ###
 /* # 全てのフォルダ
-/.**　# 全ての隠しファイルとフォルダとその中身
+/.** # 全ての隠しファイルとフォルダとその中身
 /.docker/buildx
 
 ### not ignore ###
@@ -15,3 +15,6 @@
 !/LICENSE
 !/.gitignore
 !/.gitignore_global
+!/.claude/settings.json
+!/.claude/CLAUDE.md
+!/.claude/command
