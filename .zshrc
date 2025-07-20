@@ -114,3 +114,4 @@ alias srcws='source install/setup.zsh && eval "$(register-python-argcomplete3 ro
 export DOTNET_ROOT="/usr/local/share/dotnet"
 export PATH=$PATH:$DOTNET_ROOT
 
+export PATH=$PATH:~/bin

@@ -2,7 +2,15 @@
 /* # 全てのフォルダ
 /.** # 全ての隠しファイルとフォルダとその中身
 /.docker/buildx
-/.claude/*
+/.claude/ide
+/.claude/projects
+/.claude/shell-snapshots
+/.claude/statsig
+/.claude/todos
+/.claude/.credentials.json
+.token_seed
+.token_seed.lock
+
 
 ### not ignore ###
 !/install.sh
@@ -18,5 +26,6 @@
 !/.gitignore_global
 !/.claude/settings.json
 !/.claude/CLAUDE.md
-!/.claude/command
+!/.claude/command/
+!/.claude/command/*.md
 

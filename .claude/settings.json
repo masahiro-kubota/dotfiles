@@ -80,9 +80,12 @@
       "Bash(go build:*)",
       "Bash(go fmt:*)",
       "Bash(gofmt:*)",
+      "Bash(act:*)",
       "Bash(gh pr list:*)",
       "Bash(gh pr view:*)",
       "Bash(gh pr diff:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh run watch:*)",
       "Bash(gh issue create:*)",
       "Bash(gh issue edit:*)",
       "Bash(git checkout:*)",
@@ -100,7 +103,9 @@
       "mcp__devinwiki__read_wiki_contents",
       "mcp__devinwiki__ask_question"
     ],
-    "deny": []
+    "deny": [
+      "Bash(gh merge:*)"
+    ]
   },
   "model": "opus"
 }
