@@ -3,8 +3,7 @@
     "deny": [
       "Bash(gh config:*)",
       "Bash(gh merge:*)",
-      "Bash(git push --force:*)",
-      "Bash(git push .*(--force|-f):*)",
+      "Bash(git push -f:*)",
       "Bash(git clean -fd:*)",
       "Bash(git reset --hard:*)",
       "Bash(git rebase -i:*)",
