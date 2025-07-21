@@ -17,33 +17,8 @@
       "Bash(gh ssh-key:*)",
       "Bash(gh alias:*)",
       "Bash(gh auth:*)",
-      "Bash(gh api */merge:*)",
-      "Bash(gh api */repos/*/delete:*)",
-      "Bash(gh api */admin:*)",
-      "Bash(gh api *-X DELETE:*)",
-      "Bash(gh api *--method DELETE:*)",
-      "Bash(gh api */collaborators:*)",
-      "Bash(gh api */teams/*/members:*)",
-      "Bash(gh api */orgs/*/members:*)",
-      "Bash(gh api */user/keys:*)",
-      "Bash(gh api */repos/*/hooks:*)",
-      "Bash(gh api */repos/*/keys:*)",
-      "Bash(gh api */repos/*/secrets:*)",
-      "Bash(gh api */git/refs/* -X DELETE:*)"
+      "Bash(gh api:*)"
     ]
   },
-  "model": "opus",
-  "hooks": {
-    "PreToolUse": [
-      {
-        "matcher": "Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/deny-check.sh"
-          }
-        ]
-      }
-    ]
-  }
+  "model": "opus"
 }
