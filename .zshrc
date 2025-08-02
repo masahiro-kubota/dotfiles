@@ -115,3 +115,15 @@ export DOTNET_ROOT="/usr/local/share/dotnet"
 export PATH=$PATH:$DOTNET_ROOT
 
 export PATH=$PATH:~/bin
+
+
+function start_new_task() {
+    local task_id=$1
+    # mainを更新
+    cd /workspace/main
+    git pull origin main
+    # 新しいworktreeを作成
+    git worktree add ../task-${task_id} -b ai/task-${task_id}
+    cd ../task-${task_id}
+    echo "Ready to work on task ${task_id}"
+}
