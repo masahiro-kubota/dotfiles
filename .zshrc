@@ -125,5 +125,6 @@ function start_new_task() {
     # 新しいworktreeを作成
     git worktree add ../task-${task_id} -b ai/task-${task_id}
     cd ../task-${task_id}
+    git submodule update --init --recursive
     echo "Ready to work on task ${task_id}"
 }
