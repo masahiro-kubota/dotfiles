@@ -15,7 +15,8 @@ setopt sharehistory           # セッション間で履歴を共有
 setopt histignoredups         # 重複する履歴を無視
 
 # プロンプトの設定
-PROMPT='%F{green}%n%f:%F{blue}%~%f$ '
+PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$ '
+
 
 # カラー設定
 if [ -x /usr/bin/dircolors ]; then
@@ -128,3 +129,12 @@ function start_new_task() {
     git submodule update --init --recursive
     echo "Ready to work on task ${task_id}"
 }
+
+
+if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+  source /usr/share/fzf/key-bindings.zsh
+elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+bindkey -e
+bindkey '^R' fzf-history-widget
