@@ -1,0 +1,75 @@
+[DEBUG] Watching for changes in setting files /home/masa/.claude/settings.json...
+[DEBUG] Writing to temp file: /home/masa/.claude/settings.json.tmp.2099704.1761832432564
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 507 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude/settings.json.tmp.2099704.1761832432564 to /home/masa/.claude/settings.json
+[DEBUG] File /home/masa/.claude/settings.json written atomically
+[DEBUG] Writing to temp file: /home/masa/.claude.json.tmp.2099704.1761832432571
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 114205 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude.json.tmp.2099704.1761832432571 to /home/masa/.claude.json
+[DEBUG] File /home/masa/.claude.json written atomically
+[DEBUG] Applying permission update: Adding 16 deny rule(s) to destination 'userSettings': ["Bash(gh config:*)","Bash(gh merge:*)","Bash(git push -f:*)","Bash(git clean -fd:*)","Bash(git reset --hard:*)","Bash(git rebase -i:*)","Bash(git rebase --interactive:*)","Bash(gh pr merge:*)","Bash(gh repo delete:*)","Bash(gh org:*)","Bash(gh admin:*)","Bash(gh secret:*)","Bash(gh ssh-key:*)","Bash(gh alias:*)","Bash(gh auth:*)","Bash(gh api:*)"]
+[DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+[DEBUG] >>>>> getSkillsIfEnabled() CALLED <<<<<
+[DEBUG] ENABLE_SKILLS value: true, type: boolean
+[DEBUG] ENABLE_SKILLS check passed, loading skills...
+[DEBUG] Loading skills from directories: managed=/etc/claude-code/.claude/skills, user=/home/masa/.claude/skills, project=/home/masa/suica-viewer/.claude/skills
+[DEBUG] >>>>> getPluginSkills CALLED <<<<<
+[DEBUG] getPluginSkills: Processing 0 enabled plugins
+[DEBUG] Total plugin skills loaded: 0
+[DEBUG] Total plugin commands loaded: 0
+[DEBUG] Registered 0 hooks from 0 plugins
+[DEBUG] Loaded 0 skills total (managed: 0, user: 0, project: 0)
+[DEBUG] getSkillsIfEnabled returning: 0 skill dir commands, 0 plugin skills
+[DEBUG] Creating shell snapshot for zsh (/usr/bin/zsh)
+[DEBUG] Looking for shell config file: /home/masa/.zshrc
+[DEBUG] Snapshots directory: /home/masa/.claude/shell-snapshots
+[DEBUG] Creating snapshot at: /home/masa/.claude/shell-snapshots/snapshot-zsh-1761832432617-mkptxy.sh
+[DEBUG] Shell binary exists: true
+[DEBUG] Execution timeout: 10000ms
+[DEBUG] Writing to temp file: /home/masa/.claude/todos/8ff10c37-4886-4878-9cf7-7cd42b04c3b6-agent-8ff10c37-4886-4878-9cf7-7cd42b04c3b6.json.tmp.2099704.1761832432618
+[DEBUG] Temp file written successfully, size: 2 bytes
+[DEBUG] Renaming /home/masa/.claude/todos/8ff10c37-4886-4878-9cf7-7cd42b04c3b6-agent-8ff10c37-4886-4878-9cf7-7cd42b04c3b6.json.tmp.2099704.1761832432618 to /home/masa/.claude/todos/8ff10c37-4886-4878-9cf7-7cd42b04c3b6-agent-8ff10c37-4886-4878-9cf7-7cd42b04c3b6.json
+[DEBUG] File /home/masa/.claude/todos/8ff10c37-4886-4878-9cf7-7cd42b04c3b6-agent-8ff10c37-4886-4878-9cf7-7cd42b04c3b6.json written atomically
+[DEBUG] Total plugin agents loaded: 0
+[DEBUG] Shell snapshot created successfully (764 bytes)
+[DEBUG] Writing to temp file: /home/masa/.claude.json.tmp.2099704.1761832432680
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 126998 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude.json.tmp.2099704.1761832432680 to /home/masa/.claude.json
+[DEBUG] File /home/masa/.claude.json written atomically
+[DEBUG] Ripgrep first use test: PASSED (mode=builtin, path=/home/masa/.vscode/extensions/anthropic.claude-code-2.0.22-linux-x64/resources/native-binary/claude)
+[ERROR] "AxiosError: Error\n    at HM (/$bunfs/root/claude:27:1142)\n    at <anonymous> (/$bunfs/root/claude:32:9841)\n    at emit (node:events:92:22)\n    at endReadableNT (internal:streams/readable:862:50)\n    at processTicksAndRejections (native:7:39)\n    at request (/$bunfs/root/claude:34:2146)\n    at processTicksAndRejections (native:7:39)"
+[ERROR] Failed to save config with lock: Error: Lock file is already being held
+[DEBUG] Writing to temp file: /home/masa/.claude.json.tmp.2099704.1761832432820
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 127080 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude.json.tmp.2099704.1761832432820 to /home/masa/.claude.json
+[DEBUG] File /home/masa/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/masa/.claude.json.tmp.2099704.1761832432831
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 127110 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude.json.tmp.2099704.1761832432831 to /home/masa/.claude.json
+[DEBUG] File /home/masa/.claude.json written atomically
+[DEBUG] Writing to temp file: /home/masa/.claude.json.tmp.2099704.1761832432843
+[DEBUG] Preserving file permissions: 100664
+[DEBUG] Temp file written successfully, size: 127286 bytes
+[DEBUG] Applied original permissions to temp file
+[DEBUG] Renaming /home/masa/.claude.json.tmp.2099704.1761832432843 to /home/masa/.claude.json
+[DEBUG] File /home/masa/.claude.json written atomically
+[DEBUG] Skills and commands included in Skill tool:
+[DEBUG] Slash commands included in SlashCommand tool:
+[DEBUG] Failed to fetch Grove notice config: AxiosError: Request failed with status code 401
+[DEBUG] Getting matching hook commands for SessionStart with query: startup
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "startup" (0 before deduplication)
+[DEBUG] Getting matching hook commands for SessionEnd with query: undefined
+[DEBUG] Found 0 hook matchers in settings
+[DEBUG] Matched 0 unique hooks for query "no match query" (0 before deduplication)
+[DEBUG] Cleaned up session snapshot: /home/masa/.claude/shell-snapshots/snapshot-zsh-1761832432617-mkptxy.sh

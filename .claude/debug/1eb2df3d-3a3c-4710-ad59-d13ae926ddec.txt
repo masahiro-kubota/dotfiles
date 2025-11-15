@@ -1,0 +1,11 @@
+[DEBUG] [Query.streamInput] Starting to process input stream
+[DEBUG] [Query.streamInput] this.sdkMcpTransports.size = 0
+[DEBUG] [Query.streamInput] Finished processing 0 messages from input stream
+[DEBUG] [Query.streamInput] About to check MCP servers. this.sdkMcpTransports.size = 0
+[DEBUG] [Query] Calling transport.endInput() to close stdin to CLI process
+[DEBUG] [Query.streamInput] Starting to process input stream
+[DEBUG] [Query.streamInput] this.sdkMcpTransports.size = 0
+[DEBUG] [Query.streamInput] Processing message 1: user
+[DEBUG] [Query.streamInput] Finished processing 1 messages from input stream
+[DEBUG] [Query.streamInput] About to check MCP servers. this.sdkMcpTransports.size = 0
+[DEBUG] [Query] Calling transport.endInput() to close stdin to CLI process

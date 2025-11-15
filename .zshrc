@@ -138,3 +138,30 @@ elif [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
 fi
 bindkey -e
 bindkey '^R' fzf-history-widget
+
+# セキュリティ診断＋HTMLレポート生成コマンド
+nmapsec() {
+  if [ -z "$1" ]; then
+    echo "Usage: nmapsec <IP-or-hostname>"
+    return 1
+  fi
+
+  local target="$1"
+  local base_dir="$HOME/nmapsec_logs"
+
+  mkdir -p "$base_dir/$target"
+  local ts
+  ts="$(date +'%Y%m%d-%H%M%S')"
+  local prefix="$base_dir/$target/scan-sec-${target}-${ts}"
+
+  echo "[*] Scanning $target ..."
+  sudo nmap -sS -sV -sC --script vuln -O -T4 -oA "$prefix" "$target"
+
+  echo "[*] Generating HTML report ..."
+  xsltproc "${prefix}.xml" -o "${prefix}.html"
+
+  echo "[*] Opening ${prefix}.html"
+  xdg-open "${prefix}.html" >/dev/null 2>&1 &
+
+  echo "[*] Done. Files are in: $base_dir/$target"
+}

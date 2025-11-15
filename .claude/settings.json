@@ -18,6 +18,5 @@
       "Bash(gh auth:*)",
       "Bash(gh api:*)"
     ]
-  },
-  "model": "opus"
+  }
 }
