@@ -165,3 +165,20 @@ nmapsec() {
 
   echo "[*] Done. Files are in: $base_dir/$target"
 }
+
+
+myssh() {
+  if [ "$#" -ne 1 ]; then
+    echo "Usage: myssh user@host"
+    return 1
+  fi
+
+  local target="$1"
+
+  # 1. ローカルの ~/.aliases_remote をリモートにコピー
+  scp ~/.aliases "${target}:~/.kubota_aliases" || return 1
+
+  # 2. リモート側で ~/.aliases を読み込んでからシェル起動
+  ssh "$target" -t "source ~/.kubota_aliases 2>/dev/null; exec \"\$SHELL\" -l"
+}
+

@@ -42,3 +42,5 @@ alias psim='mkdir -p psim_log && ros2 launch autoware_launch planning_simulator.
 alias si='source install/setup.bash'
 alias rl='ros2 launch'
 alias rr='ros2 run'
+
+alias test='echo testtest'
