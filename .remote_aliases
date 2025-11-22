@@ -1,0 +1,48 @@
+regkey() {
+  if [ -z "$MY_PUBKEY" ]; then
+    echo "MY_PUBKEY が設定されていません。myssh で接続しましたか？"
+    return 1
+  fi
+
+  mkdir -p ~/.ssh
+  chmod 700 ~/.ssh
+
+  local auth=~/.ssh/authorized_keys
+  # ファイルがなければ作る
+  touch "$auth"
+  chmod 600 "$auth"
+
+  # 既に同じ鍵が入っていればスキップ
+  if grep -qF "$MY_PUBKEY" "$auth"; then
+    echo "この公開鍵はすでに authorized_keys に登録されています。"
+    return 0
+  fi
+
+  echo "$MY_PUBKEY" >> "$auth"
+  echo "✔ 公開鍵を $auth に追加しました"
+}
+
+# pull REMOTE_PATH LOCAL_DEST_PATH
+# 例: pull ~/logs/error.log ~/Downloads/error.log
+pull() {
+  if [ $# -lt 2 ]; then
+    echo "Usage: pull REMOTE_PATH LOCAL_DEST_PATH"
+    echo "例: pull ~/logs/error.log ~/Downloads/error.log"
+    return 1
+  fi
+
+  if [ -z "$PULL_LOCAL_USER" ] || [ -z "$PULL_LOCAL_HOST" ]; then
+    echo "PULL_LOCAL_USER / PULL_LOCAL_HOST が設定されていません。myssh 経由でログインしましたか？"
+    return 1
+  fi
+
+  local remote_path="$1"
+  local local_dest="$2"
+  local target="${PULL_LOCAL_USER}@${PULL_LOCAL_HOST}"
+
+  echo "→ $remote_path を $target:$local_dest にコピーします"
+
+  # リモート → ローカル へ scp
+  scp "$remote_path" "$target:$local_dest"
+}
+

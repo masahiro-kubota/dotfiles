@@ -166,7 +166,6 @@ nmapsec() {
   echo "[*] Done. Files are in: $base_dir/$target"
 }
 
-
 myssh() {
   if [ "$#" -ne 1 ]; then
     echo "Usage: myssh user@host"
@@ -174,11 +173,53 @@ myssh() {
   fi
 
   local target="$1"
+  local keyfile="$HOME/.ssh/id_ed25519"
+  local pubfile="${keyfile}.pub"
+  local local_user="$USER"
+  local local_host="$(hostname -I | awk '{print $1}')"
 
-  # 1. ローカルの ~/.aliases_remote をリモートにコピー
-  scp ~/.aliases "${target}:~/.kubota_aliases" || return 1
+  # --- 0. 公開鍵が無ければ作る ---
+  if [ ! -f "$pubfile" ]; then
+    echo "→ SSH鍵がありません。ed25519鍵を作成します..."
+    ssh-keygen -t ed25519 -f "$keyfile" -C "$USER@$(hostname)" -N ""
+    echo "✔ SSH鍵を作成しました：$pubfile"
+  fi
 
-  # 2. リモート側で ~/.aliases を読み込んでからシェル起動
-  ssh "$target" -t "source ~/.kubota_aliases 2>/dev/null; exec \"\$SHELL\" -l"
+  # --- 1. 公開鍵を読み込む ---
+  local pubkey
+  pubkey="$(< "$pubfile")"
+
+  # --- 2. remote_aliases / aliases を送る ---
+  scp -q ~/.kubota_aliases ~/.kubota_remote_aliases \
+    "${target}:~/." || return 1
+
+  # --- 3. 公開鍵を MY_PUBKEY として環境変数に渡しログイン ---
+  # --- 3. 公開鍵を MY_PUBKEY として環境変数に渡し、専用 rc で bash 起動 ---
+  ssh "$target" -t "
+    export MY_PUBKEY='$pubkey'
+    export PULL_LOCAL_USER='$local_user'
+    export PULL_LOCAL_HOST='$local_host'
+
+    # kubota 専用 rc をその場で生成
+    cat > ~/.kubota_rc << 'EOF'
+# まず元々の bashrc を読む
+if [ -f ~/.bashrc ]; then
+  . ~/.bashrc
+fi
+
+# kubota 用 aliases
+if [ -f ~/.kubota_aliases ]; then
+  . ~/.kubota_aliases
+fi
+
+# kubota 用 remote aliases（regkey など）
+if [ -f ~/.kubota_remote_aliases ]; then
+  . ~/.kubota_remote_aliases
+fi
+EOF
+
+    # この rc を使って対話 bash を起動
+    exec bash --rcfile ~/.kubota_rc -i
+  "
 }
 
