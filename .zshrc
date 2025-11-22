@@ -166,59 +166,145 @@ nmapsec() {
   echo "[*] Done. Files are in: $base_dir/$target"
 }
 
+ensure_ssh_config_entry_by_remote() {
+  local user_part="$1"
+  local host_part="$2"
+  local keyfile="$HOME/.ssh/id_ed25519"
+  local ssh_config="$HOME/.ssh/config"
+
+  # config が無ければ作る
+  if [ ! -f "$ssh_config" ]; then
+    touch "$ssh_config"
+    chmod 600 "$ssh_config"
+  fi
+
+  # (HostName, User) が一致するブロックがあるかチェック
+  local entry_exists
+  entry_exists=$(awk -v h="$host_part" -v u="$user_part" '
+    tolower($1) == "host" {
+      in_block = 1
+      host_ok = 0
+      user_ok = 0
+      next
+    }
+    in_block && tolower($1) == "hostname" && $2 == h { host_ok = 1 }
+    in_block && tolower($1) == "user"     && $2 == u { user_ok = 1 }
+
+    # 空行でブロック終了
+    in_block && NF == 0 {
+      if (host_ok && user_ok) {
+        print "yes"
+        exit
+      }
+      in_block = 0
+    }
+    END {
+      if (in_block && host_ok && user_ok) {
+        print "yes"
+      }
+    }
+  ' "$ssh_config")
+
+  if [ "$entry_exists" = "yes" ]; then
+    return 0  # 既にあるので何もしない
+  fi
+
+  # --- 無いので alias を聞いて追加 ---
+  echo "→ ~/.ssh/config にこの組み合わせがありません："
+  echo "   HostName = $host_part"
+  echo "   User     = $user_part"
+  printf "登録する Host 名（エイリアス）を入力（例: rk04）: "
+  read -r alias_name
+
+  if [ -n "$alias_name" ]; then
+    {
+      echo ""
+      echo "Host $alias_name"
+      echo "  HostName $host_part"
+      echo "  User $user_part"
+      echo "  IdentityFile $keyfile"
+    } >> "$ssh_config"
+    chmod 600 "$ssh_config"
+    echo "✔ Host '$alias_name' を登録しました"
+    echo "  → 次回から: ssh $alias_name / myssh $alias_name で接続できます"
+  fi
+}
+
+
+###############################################
+#             myssh 関数本体
+###############################################
 myssh() {
   if [ "$#" -ne 1 ]; then
-    echo "Usage: myssh user@host"
+    echo "Usage: myssh user@host | myssh alias"
     return 1
   fi
 
-  local target="$1"
+  local arg="$1"
   local keyfile="$HOME/.ssh/id_ed25519"
   local pubfile="${keyfile}.pub"
+  local target
   local local_user="$USER"
-  local local_host="$(hostname -I | awk '{print $1}')"
+  local local_host
+  local_host="$(hostname -I | awk '{print $1}')"
 
-  # --- 0. 公開鍵が無ければ作る ---
+  # --- 鍵がなければ作る ---
   if [ ! -f "$pubfile" ]; then
     echo "→ SSH鍵がありません。ed25519鍵を作成します..."
     ssh-keygen -t ed25519 -f "$keyfile" -C "$USER@$(hostname)" -N ""
     echo "✔ SSH鍵を作成しました：$pubfile"
   fi
 
-  # --- 1. 公開鍵を読み込む ---
+  # ==========================
+  #   引数の解釈
+  # ==========================
+  if [[ "$arg" == *@* ]]; then
+    # --- user@host モード（初回登録用） ---
+    local user_part host_part
+    user_part="${arg%%@*}"
+    host_part="${arg##*@}"
+
+    # config に (HostName, User) があるか確認・なければ追加
+    ensure_ssh_config_entry_by_remote "$user_part" "$host_part"
+
+    target="${user_part}@${host_part}"
+  else
+    # --- alias or host モード ---
+    local ssh_config="$HOME/.ssh/config"
+
+    if [ -f "$ssh_config" ] && grep -qE "^[[:space:]]*Host[[:space:]]+$arg( |\$)" "$ssh_config"; then
+      # ~/.ssh/config に Host <arg> がある → alias とみなす
+      target="$arg"
+      # alias の場合は登録処理はしない
+    else
+      # Host にも無い → host とみなして $USER@host で登録モード
+      local user_part host_part
+      user_part="$USER"
+      host_part="$arg"
+      ensure_ssh_config_entry_by_remote "$user_part" "$host_part"
+      target="${user_part}@${host_part}"
+    fi
+  fi
+
+  # --- 公開鍵を読み込み ---
   local pubkey
   pubkey="$(< "$pubfile")"
 
-  # --- 2. remote_aliases / aliases を送る ---
-  scp -q ~/.kubota_aliases ~/.kubota_remote_aliases \
-    "${target}:~/." || return 1
+  # --- alias ファイル送信 ---
+  #    target が "user@host" でも "alias" でも OK
+  scp -q ~/.kubota_aliases ~/.kubota_remote_aliases "${target}:~/." || return 1
 
-  # --- 3. 公開鍵を MY_PUBKEY として環境変数に渡しログイン ---
-  # --- 3. 公開鍵を MY_PUBKEY として環境変数に渡し、専用 rc で bash 起動 ---
+  # --- リモートで rcfile を作って bash 起動 ---
   ssh "$target" -t "
     export MY_PUBKEY='$pubkey'
     export PULL_LOCAL_USER='$local_user'
     export PULL_LOCAL_HOST='$local_host'
 
-    # kubota 専用 rc をその場で生成
     cat > ~/.kubota_rc << 'EOF'
-# まず元々の bashrc を読む
-if [ -f ~/.bashrc ]; then
-  . ~/.bashrc
-fi
-
-# kubota 用 aliases
-if [ -f ~/.kubota_aliases ]; then
-  . ~/.kubota_aliases
-fi
-
-# kubota 用 remote aliases（regkey など）
-if [ -f ~/.kubota_remote_aliases ]; then
-  . ~/.kubota_remote_aliases
-fi
+if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
+if [ -f ~/.kubota_aliases ]; then . ~/.kubota_aliases; fi
+if [ -f ~/.kubota_remote_aliases ]; then . ~/.kubota_remote_aliases; fi
 EOF
-
-    # この rc を使って対話 bash を起動
     exec bash --rcfile ~/.kubota_rc -i
   "
 }
