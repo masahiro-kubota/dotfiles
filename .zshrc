@@ -235,12 +235,14 @@ ensure_ssh_config_entry_by_remote() {
 #             myssh 関数本体
 ###############################################
 myssh() {
-  if [ "$#" -ne 1 ]; then
-    echo "Usage: myssh user@host | myssh alias"
+  if [ "$#" -lt 1 ]; then
+    echo "Usage: myssh <user@host|alias> [shot|cast] [display]"
     return 1
   fi
 
   local arg="$1"
+  local subcmd="$2"
+  local display_arg="${3:-:0}"
   local keyfile="$HOME/.ssh/id_ed25519"
   local pubfile="${keyfile}.pub"
   local target
@@ -284,6 +286,114 @@ myssh() {
       ensure_ssh_config_entry_by_remote "$user_part" "$host_part"
       target="${user_part}@${host_part}"
     fi
+  fi
+
+  # --- shot サブコマンドの処理 ---
+  if [ "$subcmd" = "shot" ]; then
+    local ts
+    ts="$(date +%Y%m%d-%H%M%S)"
+    local filename="screenshot-${ts}.png"
+    local save_dir="$HOME/remote_screenshots"
+    
+    # 保存先ディレクトリがなければ作成
+    if [ ! -d "$save_dir" ]; then
+      mkdir -p "$save_dir"
+    fi
+
+    echo "[myssh] Checking for scrot on $target ..."
+    if ! ssh "$target" "which scrot >/dev/null 2>&1"; then
+      echo "[myssh] scrot not found. Installing..."
+      ssh -t "$target" "sudo apt update && sudo apt install -y scrot"
+      if [ $? -ne 0 ]; then
+        echo "[myssh] Failed to install scrot."
+        return 1
+      fi
+    fi
+
+    echo "[myssh] Taking screenshot on $target (DISPLAY=$display_arg) ..."
+    # DISPLAY指定して scrot を実行
+    ssh "$target" "export DISPLAY='$display_arg'; scrot '$filename'"
+    if [ $? -eq 0 ]; then
+      echo "[myssh] Downloading $filename ..."
+      scp "${target}:~/${filename}" "${save_dir}/${filename}"
+      ssh "$target" "rm '${filename}'"
+      echo "[myssh] Saved to ${save_dir}/${filename}"
+    else
+      echo "[myssh] Failed to take screenshot. (Is scrot installed? Is DISPLAY=:0 correct?)"
+    fi
+
+    return 0
+  fi
+
+  # --- cast サブコマンドの処理 ---
+  if [ "$subcmd" = "cast" ]; then
+    local ts
+    ts="$(date +%Y%m%d-%H%M%S)"
+    local filename="screencast-${ts}.mp4"
+    local save_dir="$HOME/remote_screenshots"
+    
+    if [ ! -d "$save_dir" ]; then
+      mkdir -p "$save_dir"
+    fi
+
+    echo "[myssh] Preparing to record on $target (DISPLAY=$display_arg) ..."
+    echo "[myssh] Press Ctrl+C to stop recording."
+
+    # リモートで録画スクリプトを実行
+    # ssh -t で対話モードにして Ctrl+C を送信できるようにする
+    ssh -t "$target" "
+      export DISPLAY='$display_arg'
+      ts='$ts'
+      filename='$filename'
+      
+      # セッションタイプの検出
+      if [ -z \"\$XDG_SESSION_TYPE\" ]; then
+        # 変数がない場合は推測
+        if [ -n \"\$WAYLAND_DISPLAY\" ]; then
+          XDG_SESSION_TYPE=wayland
+        else
+          XDG_SESSION_TYPE=x11
+        fi
+      fi
+
+      echo \"[remote] Session Type: \$XDG_SESSION_TYPE\"
+
+      if [ \"\$XDG_SESSION_TYPE\" = \"wayland\" ]; then
+        # --- Wayland (wf-recorder) ---
+        if ! which wf-recorder >/dev/null 2>&1; then
+          echo \"[remote] wf-recorder not found. Installing...\"
+          sudo apt update && sudo apt install -y wf-recorder
+        fi
+        echo \"[remote] Starting recording (Wayland)...\"
+        wf-recorder -f \"\$filename\"
+      else
+        # --- X11 (ffmpeg) ---
+        if ! which ffmpeg >/dev/null 2>&1; then
+          echo \"[remote] ffmpeg not found. Installing...\"
+          sudo apt update && sudo apt install -y ffmpeg
+        fi
+        
+        # 解像度の取得 (xdpyinfoがあれば)
+        res=\"1920x1080\" # default
+        if which xdpyinfo >/dev/null 2>&1; then
+           res=\$(xdpyinfo -display \"\$DISPLAY\" | awk '/dimensions/{print \$2}')
+        fi
+        
+        echo \"[remote] Starting recording (X11, resolution: \$res)...\"
+        ffmpeg -y -video_size \"\$res\" -framerate 30 -f x11grab -i \"\$DISPLAY\" \"\$filename\"
+      fi
+    "
+
+    # 録画終了後 (ssh -t が終了した後)
+    echo ""
+    echo "[myssh] Downloading $filename ..."
+    if scp "${target}:~/${filename}" "${save_dir}/${filename}"; then
+      ssh "$target" "rm '${filename}'"
+      echo "[myssh] Saved to ${save_dir}/${filename}"
+    else
+      echo "[myssh] Failed to download. (Did recording start?)"
+    fi
+    return 0
   fi
 
   # --- 公開鍵を読み込み ---
